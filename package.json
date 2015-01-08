@@ -1,0 +1,21 @@
+{
+  "name": "express-auth",
+  "version": "1.0.0",
+  "description": "Simple auth for express",
+  "main": "index.js",
+  "scripts": {
+    "test": "node tests | tap-spec"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.10.1",
+    "express": "^4.10.7",
+    "extend": "^2.0.0"
+  },
+  "devDependencies": {
+    "supertest": "^0.15.0",
+    "tap-spec": "^2.1.2",
+    "tape": "^3.0.3"
+  }
+}
