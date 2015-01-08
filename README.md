@@ -19,22 +19,26 @@ npm test
 ```
 ```
 
-> just-auth@0.0.0 test /Users/iradchenko/sandbox/express-auth
+> just-auth@0.0.0 test /Users/iradchenko/sandbox/just-auth
 > node tests | tap-spec
   login works
     ✓ No error
-    ✓ Body is ok!
+    ✓ User returned
+  invalid login body data
+    ✓ No error
+    ✓ Responds with required arguments
    
    
    
-  total:     2
-  passing:   2
-  duration:  243ms
+  total:     4
+  passing:   4
+  duration:  209ms
   All tests pass!
 ```
 
 ## Dependencies
 
+- [bcrypt](https://github.com/ncb000gt/node.bcrypt.js): A bcrypt library for NodeJS.
 - [body-parser](https://github.com/expressjs/body-parser): Node.js body parsing middleware
 - [express](https://github.com/strongloop/express): Fast, unopinionated, minimalist web framework
 - [extend](https://github.com/justmoon/node-extend): Port of jQuery.extend for node.js and the browser
