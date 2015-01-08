@@ -9,7 +9,7 @@ test('login works', function (t) {
 
   request(boot({
     getUser: function (id, cb) {
-      cb(undefined, { email: id, password_hash: '$2a$08$3hwGAN.NKAP/6VX3NdJ3zuDmEv0qfzXnOexwEzq2gT.rUk3ohx37y' });
+      cb(undefined, { email: id, passwordHash: '$2a$08$3hwGAN.NKAP/6VX3NdJ3zuDmEv0qfzXnOexwEzq2gT.rUk3ohx37y' });
     }
   }))
     .post('/auth/login')
