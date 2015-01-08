@@ -1,6 +1,9 @@
 # just-auth [![Build Status](https://travis-ci.org/knownasilya/just-auth.png?branch=master)](https://travis-ci.org/knownasilya/just-auth)
 
-Simple express auth, convention over configuration, but configuration is available ;)
+**Don't use yet, this is still a work in progress.**
+
+Simple token based authentication for Express.js.
+This library follows convention over configuration, but configuration is available :wink:.
 
 ## Installation
 
@@ -9,6 +12,26 @@ Download node at [nodejs.org](http://nodejs.org) and install it, if you haven't 
 ```sh
 npm install just-auth --save
 ```
+
+## Usage
+
+```js
+var express = require('express');
+var justAuth = require('just-auth');
+var app = express();
+
+app.use('/auth', justAuth({
+  getUser: function (email, callback) {
+    // if error: callback({ myerror: 'failure' });
+    // if success: callback(undefined, { email: 'my@email', passwordHash: '%asdaq42ad..' });
+  }
+}));
+
+app.listen(80);
+```
+
+POST to `/auth/login` with `{ email: 'my@email', password: 'bacon' }`.
+Result will be JSON, e.g. `{ user: { email: 'my@email' } }`.
 
 
 ## Tests
