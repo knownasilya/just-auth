@@ -30,7 +30,7 @@ module.exports = function (options) {
       res.json('ok');
     }
     else {
-      res.status(400).send('Invalid arguments, expected `' + idField + '` and `' + passwordField + '` to be present.');
+      res.status(400).json('Invalid arguments, expected `' + idField + '` and `' + passwordField + '` to be present.');
     }
   });
 
