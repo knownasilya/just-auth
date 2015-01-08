@@ -4,6 +4,9 @@ var extend = require('extend');
 var express = require('express');
 var bodyParser = require('body-parser');
 
+var loginHandler = require('./lib/login');
+var logoutHandler = require('./lib/logout');
+
 var router = express.Router();
 var defaults = {
   loginEndpoint: '/login',
@@ -30,11 +33,11 @@ module.exports = function (options) {
 
   // Login endpoints
   router.route(options.loginEndpoint)
-    .post(require('./lib/login')(options));
+    .post(loginHandler(options));
 
   // Logout endpoints
   router.route(options.logoutEndpoint)
-    .post(require('./lib/logout')(options));
+    .post(logoutHandler(options));
 
   return router;
 };
