@@ -4,6 +4,13 @@ var request = require('supertest');
 var test = require('tape');
 var boot = require('./bootstrap');
 
+test('invalid #getUser', function (t) {
+  t.throws(function () {
+    boot()
+  }, /getUser\(id, callback\)` function to be defined/, 'Missing function throws descriptive error');
+  t.end();
+});
+
 test('login works', function (t) {
   t.plan(2);
 
