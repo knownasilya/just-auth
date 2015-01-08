@@ -18,7 +18,11 @@ module.exports = function (options) {
   options = options || {};
   options = extend({}, defaults, options);
 
-  var getUser = options.getUser;
+  if (!options.getUser || typeof options.getUser !== 'function') {
+    throw new Error('just-auth requires a `getUser(id, callback)` function to be defined. See https://github.com/knownasilya/just-auth#getuser for details.');
+  }
+
+  var getUser = options.getUser
   var validatePassword = options.validatePassword || bcrypt.compareSync;
 
   // Setup router specific middleware

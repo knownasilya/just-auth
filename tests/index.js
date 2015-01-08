@@ -25,7 +25,11 @@ test('login works', function (t) {
 test('invalid login body data', function (t) {
   t.plan(2);
 
-  request(boot())
+  request(boot({
+    getUser: function (id, cb) {
+      cb(undefined, {});
+    }
+  }))
     .post('/auth/login')
     .send({ id: 'user', pass: 'blah' })
     .expect('Content-Type', /json/)
