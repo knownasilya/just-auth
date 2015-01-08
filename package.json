@@ -17,5 +17,9 @@
     "supertest": "^0.15.0",
     "tap-spec": "^2.1.2",
     "tape": "^3.0.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:knownasilya/just-auth.git"
   }
 }
