@@ -1,12 +1,12 @@
 {
-  "name": "express-auth",
-  "version": "1.0.0",
-  "description": "Simple auth for express",
+  "name": "just-auth",
+  "version": "0.0.0",
+  "description": "Simple express auth, convention over configuration, but configuration is available ;)",
   "main": "index.js",
   "scripts": {
     "test": "node tests | tap-spec"
   },
-  "author": "",
+  "author": "Ilya Radchenko <ilya@burstcreations.com>",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.10.1",
