@@ -2,7 +2,7 @@
 
 **Don't use yet, this is still a work in progress.**
 
-Simple token based authentication for Express.js.
+Simple SPA focused token based authentication for Express.js.
 This library follows convention over configuration, but configuration is available :wink:.
 
 ## Installation
