@@ -1,7 +1,7 @@
 {
   "name": "just-auth",
   "version": "0.0.0",
-  "description": "Simple express auth, convention over configuration, but configuration is available ;)",
+  "description": "Simple SPA focused token based authentication for Express.js",
   "main": "index.js",
   "scripts": {
     "test": "node tests | tap-spec"
@@ -9,6 +9,7 @@
   "author": "Ilya Radchenko <ilya@burstcreations.com>",
   "license": "ISC",
   "dependencies": {
+    "auth-header": "^0.2.2",
     "bcrypt": "^0.8.0",
     "body-parser": "^1.10.1",
     "express": "^4.10.7",
