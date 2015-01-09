@@ -24,6 +24,19 @@ app.use('/auth', justAuth({
   getUser: function (email, callback) {
     // if error: callback({ myerror: 'failure' });
     // if success: callback(undefined, { email: 'my@email', passwordHash: '%asdaq42ad..' });
+  },
+  
+  updateUser: function (user, callback) {
+    // user has token set and passwordHash removed.
+    
+    // if error: callback({ myerror: 'failure' });
+    // if success: callback(undefined, userWithTokenSet);
+  },
+  
+  invalidateUser: function (token, callback) {
+    // find user by token, and expire it or remove it
+    // if error: callback({ myerror: 'failure' });
+    // if success: callback();
   }
 }));
 
