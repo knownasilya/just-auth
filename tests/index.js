@@ -6,8 +6,19 @@ var boot = require('./bootstrap');
 
 test('invalid #getUser', function (t) {
   t.throws(function () {
-    boot()
+    boot({
+      invalidateUser: function () {}
+    })
   }, /getUser\(id, callback\)` function to be defined/, 'Missing function throws descriptive error');
+  t.end();
+});
+
+test('invalid #invalidateUser', function (t) {
+  t.throws(function () {
+    boot({
+      getUser: function () {}
+    })
+  }, /invalidateUser\(token, callback\)` function to be defined/, 'Missing function throws descriptive error');
   t.end();
 });
 
@@ -16,7 +27,15 @@ test('login works', function (t) {
 
   request(boot({
     getUser: function (id, cb) {
-      cb(undefined, { email: id, passwordHash: '$2a$08$3hwGAN.NKAP/6VX3NdJ3zuDmEv0qfzXnOexwEzq2gT.rUk3ohx37y' });
+      process.nextTick(function () {
+        cb(undefined, { email: id, passwordHash: '$2a$08$3hwGAN.NKAP/6VX3NdJ3zuDmEv0qfzXnOexwEzq2gT.rUk3ohx37y' });
+      });
+    },
+
+    invalidateUser: function (token, callback) {
+      process.nextTick(function () {
+        cb(undefined);
+      });
     }
   }))
     .post('/auth/login')
@@ -35,6 +54,10 @@ test('invalid login body data', function (t) {
   request(boot({
     getUser: function (id, cb) {
       cb(undefined, {});
+    },
+
+    invalidateUser: function (token, callback) {
+      cb(undefined);
     }
   }))
     .post('/auth/login')

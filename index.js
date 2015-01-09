@@ -13,7 +13,8 @@ var defaults = {
   logoutEndpoint: '/logout',
   idField: 'email',
   passwordField: 'password',
-  passwordHashField: 'passwordHash'
+  passwordHashField: 'passwordHash',
+  tokenField: 'token'
 };
 
 module.exports = function (options) {
@@ -23,6 +24,11 @@ module.exports = function (options) {
   if (!options.getUser || typeof options.getUser !== 'function') {
     throw new Error('just-auth requires a `getUser(id, callback)` function to be defined. ' +
       'See https://github.com/knownasilya/just-auth#getuser for details.');
+  }
+
+  if (!options.invalidateUser || typeof options.invalidateUser !== 'function') {
+    throw new Error('just-auth requires a `invalidateUser(token, callback)` function to be defined. ' +
+      'See https://github.com/knownasilya/just-auth#invalidateuser for details.');
   }
 
   // Setup router specific middleware
