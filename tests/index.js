@@ -16,14 +16,15 @@ test('invalid #getUser', function (t) {
 test('invalid #invalidateUser', function (t) {
   t.throws(function () {
     boot({
-      getUser: function () {}
+      getUser: function () {},
+      updateUser: function () {}
     })
   }, /invalidateUser\(token, callback\)` function to be defined/, 'Missing function throws descriptive error');
   t.end();
 });
 
 test('login works', function (t) {
-  t.plan(2);
+  t.plan(4);
 
   request(boot({
     getUser: function (id, cb) {
@@ -36,6 +37,12 @@ test('login works', function (t) {
       process.nextTick(function () {
         cb(undefined);
       });
+    },
+
+    updateUser: function (user, callback) {
+      process.nextTick(function () {
+        callback(undefined, user);
+      });
     }
   }))
     .post('/auth/login')
@@ -44,7 +51,9 @@ test('login works', function (t) {
     .expect(200)
     .end(function (err, res) {
       t.error(err, 'No error');
-      t.same(res.body, { user: { email: 'blah@blah' } }, 'User returned');
+      t.ok(res.body.user, 'Has user data');
+      t.equal(res.body.user.email, 'blah@blah', 'Correct email');
+      t.ok(res.body.user.token, 'Has token');
     });
 });
 
@@ -58,6 +67,12 @@ test('invalid login body data', function (t) {
 
     invalidateUser: function (token, callback) {
       cb(undefined);
+    },
+
+    updateUser: function (user, callback) {
+      process.nextTick(function () {
+        callback(undefined, user);
+      });
     }
   }))
     .post('/auth/login')
