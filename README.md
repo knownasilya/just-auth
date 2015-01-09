@@ -31,7 +31,7 @@ app.listen(80);
 ```
 
 POST to `/auth/login` with `{ email: 'my@email', password: 'bacon' }`.
-Result will be JSON, e.g. `{ user: { email: 'my@email' } }`.
+Result will be JSON, e.g. `{ user: { email: 'my@email', token: '2mkql3...' } }`.
 
 
 ## Tests
