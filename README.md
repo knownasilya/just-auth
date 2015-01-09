@@ -57,18 +57,24 @@ npm test
 
 > just-auth@0.0.0 test /Users/iradchenko/sandbox/just-auth
 > node tests | tap-spec
+  invalid #getUser
+    ✓ Missing function throws descriptive error
+  invalid #invalidateUser
+    ✓ Missing function throws descriptive error
   login works
     ✓ No error
-    ✓ User returned
+    ✓ Has user data
+    ✓ Correct email
+    ✓ Has token
   invalid login body data
     ✓ No error
     ✓ Responds with required arguments
    
    
    
-  total:     4
-  passing:   4
-  duration:  209ms
+  total:     8
+  passing:   8
+  duration:  218ms
   All tests pass!
 ```
 
