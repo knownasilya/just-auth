@@ -43,7 +43,7 @@ module.exports = function (options) {
 
   // Logout endpoints
   router.route(options.logoutEndpoint)
-    .post(logoutHandler(options));
+    .all(logoutHandler(options));
 
   return router;
 };
