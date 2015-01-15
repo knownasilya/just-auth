@@ -72,3 +72,30 @@ test('logout responds to Bearer token', function (t) {
       t.same(res.body, {}, 'Blank object, valid response');
     });
 });
+
+test('logout without Authorization', function (t) {
+  t.plan(2);
+
+  request(boot(helpers.validBlankOptions()))
+    .post('/auth/logout')
+    .expect('Content-Type', /json/)
+    .expect(400)
+    .end(function (err, res) {
+      t.error(err, 'No error');
+      t.equal(res.body, 'Authorization token is missing', 'Responds with missing token error');
+    });
+});
+
+test('logout with incorrect Authorization', function (t) {
+  t.plan(2);
+
+  request(boot(helpers.validBlankOptions()))
+    .post('/auth/logout')
+    .set('Authorization', 'Basic 123')
+    .expect('Content-Type', /json/)
+    .expect(400)
+    .end(function (err, res) {
+      t.error(err, 'No error');
+      t.equal(res.body, 'Invalid authorization scheme, expected \'Bearer\'', 'Responds with invalid token error');
+    });
+});
