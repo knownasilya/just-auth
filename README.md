@@ -2,7 +2,7 @@
 
 **Don't use yet, this is still a work in progress.**
 
-Simple SPA focused token based authentication for Express.js.
+Simple SPA focused token based authentication for Express.js
 This library follows convention over configuration, but configuration is available :wink:.
 
 ## Installation
@@ -12,6 +12,7 @@ Download node at [nodejs.org](http://nodejs.org) and install it, if you haven't 
 ```sh
 npm install just-auth --save
 ```
+
 
 ## Usage
 
@@ -25,14 +26,14 @@ app.use('/auth', justAuth({
     // if error: callback({ myerror: 'failure' });
     // if success: callback(undefined, { email: 'my@email', passwordHash: '%asdaq42ad..' });
   },
-  
+
   updateUser: function (user, callback) {
     // user has token set and passwordHash removed.
-    
+
     // if error: callback({ myerror: 'failure' });
     // if success: callback(undefined, userWithTokenSet);
   },
-  
+
   invalidateUser: function (token, callback) {
     // find user by token, and expire it or remove it
     // if error: callback({ myerror: 'failure' });
@@ -53,9 +54,9 @@ Result will be JSON, e.g. `{ user: { email: 'my@email', token: '2mkql3...' } }`.
 npm install
 npm test
 ```
-```
 
-> just-auth@0.0.0 test /Users/iradchenko/sandbox/just-auth
+```
+> just-auth@0.0.2 test /Users/iradchenko/sandbox/just-auth
 > node tests | tap-spec
   invalid #getUser
     ✓ Missing function throws descriptive error
@@ -69,17 +70,27 @@ npm test
   invalid login body data
     ✓ No error
     ✓ Responds with required arguments
-   
-   
-   
-  total:     8
-  passing:   8
-  duration:  218ms
+  logout responds to Bearer token
+    ✓ No error
+    ✓ Blank object, valid response
+  logout without Authorization
+    ✓ No error
+    ✓ Responds with missing token error
+  logout with incorrect Authorization
+    ✓ No error
+    ✓ Responds with invalid token error
+
+
+
+  total:     14
+  passing:   14
+  duration:  369ms
   All tests pass!
 ```
 
 ## Dependencies
 
+- [auth-header](https://github.com/izaakschroeder/auth-header): For HTTP `Authorization` and `WWW-Authenticate` headers.
 - [bcrypt](https://github.com/ncb000gt/node.bcrypt.js): A bcrypt library for NodeJS.
 - [body-parser](https://github.com/expressjs/body-parser): Node.js body parsing middleware
 - [express](https://github.com/strongloop/express): Fast, unopinionated, minimalist web framework
