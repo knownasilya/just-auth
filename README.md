@@ -47,6 +47,24 @@ app.listen(80);
 POST to `/auth/login` with `{ email: 'my@email', password: 'bacon' }`.
 Result will be JSON, e.g. `{ user: { email: 'my@email', token: '2mkql3...' } }`.
 
+## Available Options
+
+* `loginEndpoint` - String, defaults to '/login'.
+* `logoutEndpoint` - String, defaults to '/logout'.
+* `idField` - String, defaults to 'email', the field name of the identifier for the user.
+  The value of this field is passed to the `getUser` function.
+* `passwordField` - String, defaults to 'password'.
+* `passwordHashField` - String, defaults to 'passwordHash'.
+* `tokenField` - String, defaults to 'token'.
+
+### Methods
+
+* `getUser` - Required; Function, `function (id, callback)`, should return a user object or an error via the callback.
+* `invalidateUser` - Required; Function, `function (token, callback)`, should return an error or no value via the callback.
+* `updateUser` - Function, `function (user, callback)`, should return an error or the updated user via the callback.
+* `validatePassword` - Function, `function (password, passwordHash)` should return `true` or `false`.
+  By default this is `bcrypt.compareSync`.
+
 
 ## Tests
 
