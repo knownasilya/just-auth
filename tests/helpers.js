@@ -1,6 +1,6 @@
 'use strict';
 
-exports.validBlankOptions = function (user) {
+exports.validBlankOptions = function (user, cb) {
   user = user || {};
 
   return {
@@ -21,6 +21,7 @@ exports.validBlankOptions = function (user) {
     },
 
     updateUser: function (user, callback) {
+      cb(this.req);
       process.nextTick(function () {
         callback(undefined, user);
       });

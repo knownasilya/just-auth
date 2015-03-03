@@ -25,11 +25,14 @@ test('invalid #invalidateUser', function (t) {
 });
 
 test('login works', function (t) {
-  t.plan(4);
+  t.plan(5);
 
+  var updateReq;
   var options = helpers.validBlankOptions({
     email: '<id>',
     passwordHash: '$2a$08$3hwGAN.NKAP/6VX3NdJ3zuDmEv0qfzXnOexwEzq2gT.rUk3ohx37y'
+  }, function (req) {
+    updateReq = req;
   });
 
   request(boot(options))
@@ -42,6 +45,7 @@ test('login works', function (t) {
       t.ok(res.body.user, 'Has user data');
       t.equal(res.body.user.email, 'blah@blah', 'Correct email');
       t.ok(res.body.user.token, 'Has token');
+      t.ok(updateReq, 'Req is populated from updateUser');
     });
 });
 
