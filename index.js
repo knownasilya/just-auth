@@ -2,6 +2,7 @@
 
 var extend = require('extend');
 var express = require('express');
+var authentication = require('express-authentication');
 var bodyParser = require('body-parser');
 
 var loginHandler = require('./lib/login');
@@ -26,11 +27,6 @@ module.exports = function (options) {
       'See https://github.com/knownasilya/just-auth#getuser for details.');
   }
 
-  if (!options.invalidateUser || typeof options.invalidateUser !== 'function') {
-    throw new Error('just-auth requires a `invalidateUser(token, callback)` function to be defined. ' +
-      'See https://github.com/knownasilya/just-auth#invalidateuser for details.');
-  }
-
   // Setup router specific middleware
   router.use(bodyParser.json());
   router.use(bodyParser.urlencoded({
@@ -45,5 +41,8 @@ module.exports = function (options) {
   router.route(options.logoutEndpoint)
     .all(logoutHandler(options));
 
-  return router;
+  return {
+    router: router,
+    middleware: authentication
+  };
 };
