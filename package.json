@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "node tests | tap-spec",
+    "test-coverage": "istanbul cover tests/index.js --report lcovonly | tap-spec",
     "readme": "readme package.json --tests --travis > README.md"
   },
   "author": "Ilya Radchenko <ilya@burstcreations.com>",
@@ -19,6 +20,7 @@
     "jsonwebtoken": "^4.2.1"
   },
   "devDependencies": {
+    "istanbul": "^0.3.10",
     "supertest": "^0.15.0",
     "tap-spec": "^2.1.2",
     "tape": "^3.0.3"
