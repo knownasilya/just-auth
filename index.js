@@ -14,8 +14,7 @@ var defaults = {
   logoutEndpoint: '/logout',
   idField: 'email',
   passwordField: 'password',
-  passwordHashField: 'passwordHash',
-  tokenField: 'token'
+  passwordHashField: 'passwordHash'
 };
 
 module.exports = function (options) {

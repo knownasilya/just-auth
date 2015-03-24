@@ -4,7 +4,8 @@
   "description": "Simple SPA focused token based authentication for Express.js",
   "main": "index.js",
   "scripts": {
-    "test": "node tests | tap-spec"
+    "test": "node tests | tap-spec",
+    "readme": "readme package.json --tests --travis > README.md"
   },
   "author": "Ilya Radchenko <ilya@burstcreations.com>",
   "license": "ISC",
