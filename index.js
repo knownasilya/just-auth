@@ -10,7 +10,11 @@ var defaults = {
   logoutEndpoint: '/logout',
   idField: 'email',
   passwordField: 'password',
-  passwordHashField: 'passwordHash'
+  passwordHashField: 'passwordHash',
+  tokenOptions: {
+    // A full day
+    expiresInMinutes: 60 * 24
+  }
 };
 
 module.exports = function (options) {
@@ -20,7 +24,7 @@ module.exports = function (options) {
   var middleware = require('./lib/middleware');
 
   options = options || {};
-  options = extend({}, defaults, options);
+  options = extend(true, {}, defaults, options);
 
   if (!options.secret) {
     throw new Error('just-auth requires a `secret` to be set in the options.');

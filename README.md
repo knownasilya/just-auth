@@ -55,6 +55,7 @@ Result will be JSON, e.g. `{ token: '2mkql3...' }`.
   The value of this field is passed to the `getUser` function.
 * `passwordField` - String, defaults to 'password'.
 * `passwordHashField` - String, defaults to 'passwordHash'.
+* `tokenOptions` - Object, defaults to [this]().
 
 ### Methods
 
