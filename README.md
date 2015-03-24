@@ -22,22 +22,16 @@ var justAuth = require('just-auth');
 var app = express();
 
 app.use('/auth', justAuth({
+  secret: 'c47sRfunny101',
+
   getUser: function (email, callback) {
     // if error: callback({ myerror: 'failure' });
     // if success: callback(undefined, { email: 'my@email', passwordHash: '%asdaq42ad..' });
   },
 
-  updateUser: function (user, callback) {
-    // user has token set and passwordHash removed.
-
-    // if error: callback({ myerror: 'failure' });
-    // if success: callback(undefined, userWithTokenSet);
-  },
-
-  invalidateUser: function (token, callback) {
-    // find user by token, and expire it or remove it
-    // if error: callback({ myerror: 'failure' });
-    // if success: callback();
+  configureToken: function (user) {
+    // user without passwordHash
+    // return data you want set on the token
   }
 }));
 
@@ -45,7 +39,7 @@ app.listen(80);
 ```
 
 POST to `/auth/login` with `{ email: 'my@email', password: 'bacon' }`.
-Result will be JSON, e.g. `{ user: { email: 'my@email', token: '2mkql3...' } }`.
+Result will be JSON, e.g. `{ token: '2mkql3...' }`.
 
 ## Available Options
 
@@ -55,13 +49,11 @@ Result will be JSON, e.g. `{ user: { email: 'my@email', token: '2mkql3...' } }`.
   The value of this field is passed to the `getUser` function.
 * `passwordField` - String, defaults to 'password'.
 * `passwordHashField` - String, defaults to 'passwordHash'.
-* `tokenField` - String, defaults to 'token'.
 
 ### Methods
 
 * `getUser` - Required; Function, `function (id, callback)`, should return a user object or an error via the callback.
-* `invalidateUser` - Required; Function, `function (token, callback)`, should return an error or no value via the callback.
-* `updateUser` - Function, `function (user, callback)`, should return an error or the updated user via the callback.
+* `configureToken` - Function, `function (user)`, should the data that you want in the token, defaults to `user[idField]`.
 * `validatePassword` - Function, `function (password, passwordHash)` should return `true` or `false`.
   By default this is `bcrypt.compareSync`.
 
