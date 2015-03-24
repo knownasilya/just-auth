@@ -38,7 +38,10 @@ var auth = justAuth({
 });
 
 app.use('/auth', auth.router);
-app.use('/api/admin', auth.middleware);
+
+// Can also use `succeeded()` and `failed()` for redirects, etc.
+// See https://www.npmjs.com/package/express-authentication
+app.use('/api/admin', auth.middleware.required());
 
 app.listen(80);
 ```
