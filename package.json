@@ -10,6 +10,14 @@
   },
   "author": "Ilya Radchenko <ilya@burstcreations.com>",
   "license": "ISC",
+  "keywords": [
+    "authentication",
+    "json web token",
+    "spa",
+    "expressjs",
+    "login",
+    "middleware"
+  ],
   "dependencies": {
     "auth-header": "^0.2.2",
     "body-parser": "^1.10.1",
