@@ -43,6 +43,7 @@ Result will be JSON, e.g. `{ token: '2mkql3...' }`.
 
 ## Available Options
 
+* `secret` - String, **required**.
 * `loginEndpoint` - String, defaults to '/login'.
 * `logoutEndpoint` - String, defaults to '/logout'.
 * `idField` - String, defaults to 'email', the field name of the identifier for the user.
@@ -58,24 +59,24 @@ Result will be JSON, e.g. `{ token: '2mkql3...' }`.
   By default this is `bcrypt.compareSync`.
 
 
+
+
 ## Tests
 
 ```sh
 npm install
 npm test
 ```
-
 ```
+
 > just-auth@0.0.2 test /Users/iradchenko/sandbox/just-auth
 > node tests | tap-spec
+  secret not set
+    ✓ Missing secret throws error
   invalid #getUser
-    ✓ Missing function throws descriptive error
-  invalid #invalidateUser
     ✓ Missing function throws descriptive error
   login works
     ✓ No error
-    ✓ Has user data
-    ✓ Correct email
     ✓ Has token
   invalid login body data
     ✓ No error
@@ -92,9 +93,9 @@ npm test
 
 
 
-  total:     14
-  passing:   14
-  duration:  369ms
+  total:     12
+  passing:   12
+  duration:  448ms
   All tests pass!
 ```
 
@@ -104,7 +105,9 @@ npm test
 - [bcrypt](https://github.com/ncb000gt/node.bcrypt.js): A bcrypt library for NodeJS.
 - [body-parser](https://github.com/expressjs/body-parser): Node.js body parsing middleware
 - [express](https://github.com/strongloop/express): Fast, unopinionated, minimalist web framework
+- [express-authentication](https://github.com/izaakschroeder/express-authentication): Unopinionated authentication middleware for express.
 - [extend](https://github.com/justmoon/node-extend): Port of jQuery.extend for node.js and the browser
+- [jsonwebtoken](https://github.com/auth0/node-jsonwebtoken): JSON Web Token implementation (symmetric and asymmetric)
 
 ## Dev Dependencies
 
