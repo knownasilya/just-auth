@@ -63,7 +63,7 @@ Result will be JSON, e.g. `{ token: '2mkql3...' }`.
 * `getUser` - Required; Function, `function (id, callback)`, should return a user object or an error via the callback.
 * `configureToken` - Function, `function (user)`, should return the data that you want in the token, defaults to `user[idField]`.
 * `validatePassword` - Function, `function (password, passwordHash)` should return `true` or `false`.
-  By default this is `bcrypt.compareSync`.
+  By default this is `pbkdf2Utils.verify`, see [here](https://www.npmjs.com/package/pbkdf2-utils).
 
 
 
