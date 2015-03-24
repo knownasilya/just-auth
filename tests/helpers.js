@@ -4,6 +4,7 @@ exports.validBlankOptions = function (user) {
   user = user || {};
 
   return {
+    secret: '123f3mmm34',
     getUser: function (id, callback) {
       if (user.email === '<id>') {
         user.email = id;

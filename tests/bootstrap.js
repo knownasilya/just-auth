@@ -6,7 +6,7 @@ var lib = require('../');
 var app = express();
 
 module.exports = function (options) {
-  app.use('/auth', lib(options));
+  app.use('/auth', lib(options).router);
 
   return app;
 };

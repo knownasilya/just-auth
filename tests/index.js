@@ -5,28 +5,23 @@ var test = require('tape');
 var boot = require('./bootstrap');
 var helpers = require('./helpers');
 
+test('secret not set', function (t) {
+  t.throws(function () {
+    boot({})
+  }, /just-auth requires a `secret`/, 'Missing secret throws error');
+  t.end();
+});
+
 test('invalid #getUser', function (t) {
   t.throws(function () {
     boot({
-      invalidateUser: function () {}
+      secret: 'test'
     })
   }, /getUser\(id, callback\)` function to be defined/, 'Missing function throws descriptive error');
   t.end();
 });
 
-test('invalid #invalidateUser', function (t) {
-  t.throws(function () {
-    boot({
-      getUser: function () {},
-      updateUser: function () {}
-    })
-  }, /invalidateUser\(token, callback\)` function to be defined/, 'Missing function throws descriptive error');
-  t.end();
-});
-
 test('login works', function (t) {
-  t.plan(4);
-
   var options = helpers.validBlankOptions({
     email: '<id>',
     passwordHash: '$2a$08$3hwGAN.NKAP/6VX3NdJ3zuDmEv0qfzXnOexwEzq2gT.rUk3ohx37y'
@@ -39,9 +34,8 @@ test('login works', function (t) {
     .expect(200)
     .end(function (err, res) {
       t.error(err, 'No error');
-      t.ok(res.body.user, 'Has user data');
-      t.equal(res.body.user.email, 'blah@blah', 'Correct email');
-      t.ok(res.body.user.token, 'Has token');
+      t.ok(res.body.token, 'Has token');
+      t.end();
     });
 });
 
