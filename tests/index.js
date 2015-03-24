@@ -6,6 +6,8 @@ var test = require('tape');
 var boot = require('./bootstrap');
 var helpers = require('./helpers');
 var lib = require('../');
+var hash = 'IAQAAAfQKUkNkhzJPUtnQ0ZutmxXAdmsoDGGFU1xb4DZELh1Qo0PpHfiddHMOPGvceLuaKuH';
+var hashBuffer = new Buffer(hash, 'base64');
 
 test('secret not set', function (t) {
   t.throws(function () {
@@ -41,7 +43,7 @@ test('login works', function (t) {
   var jwt = require('jsonwebtoken');
   var options = helpers.validBlankOptions({
     email: '<id>',
-    passwordHash: '$2a$08$3hwGAN.NKAP/6VX3NdJ3zuDmEv0qfzXnOexwEzq2gT.rUk3ohx37y'
+    passwordHash: hashBuffer
   });
 
   request(boot(options))
