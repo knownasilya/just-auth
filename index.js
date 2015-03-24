@@ -5,11 +5,6 @@ var express = require('express');
 var authentication = require('express-authentication');
 var bodyParser = require('body-parser');
 
-var loginHandler = require('./lib/login');
-var logoutHandler = require('./lib/logout');
-var middleware = require('./lib/middleware');
-
-var router = express.Router();
 var defaults = {
   loginEndpoint: '/login',
   logoutEndpoint: '/logout',
@@ -19,6 +14,11 @@ var defaults = {
 };
 
 module.exports = function (options) {
+  var router = express.Router();
+  var loginHandler = require('./lib/login');
+  var logoutHandler = require('./lib/logout');
+  var middleware = require('./lib/middleware');
+
   options = options || {};
   options = extend({}, defaults, options);
 

@@ -4,6 +4,7 @@ var request = require('supertest');
 var test = require('tape');
 var boot = require('./bootstrap');
 var helpers = require('./helpers');
+var lib = require('../');
 
 test('secret not set', function (t) {
   t.throws(function () {
@@ -18,6 +19,20 @@ test('invalid #getUser', function (t) {
       secret: 'test'
     })
   }, /getUser\(id, callback\)` function to be defined/, 'Missing function throws descriptive error');
+  t.end();
+});
+
+test('exports correct object on init', function (t) {
+  var instance = lib({
+    secret: 'blah',
+    getUser: function (cb) {
+      cb();
+    }
+  });
+
+  t.ok(instance.router && instance.router.length === 3, 'has express router');
+  t.ok(instance.middleware && instance.middleware.required, 'has express-authentication middleware object');
+
   t.end();
 });
 
@@ -40,8 +55,6 @@ test('login works', function (t) {
 });
 
 test('invalid login body data', function (t) {
-  t.plan(2);
-
   request(boot(helpers.validBlankOptions()))
     .post('/auth/login')
     .send({ id: 'user', pass: 'blah' })
@@ -50,12 +63,11 @@ test('invalid login body data', function (t) {
     .end(function (err, res) {
       t.error(err, 'No error');
       t.equal(res.body, 'Invalid arguments, expected `email` and `password` to be present.', 'Responds with required arguments');
+      t.end();
     });
 });
 
 test('logout responds to Bearer token', function (t) {
-  t.plan(2);
-
   request(boot(helpers.validBlankOptions()))
     .post('/auth/logout')
     .set('Authorization', 'Bearer 123')
@@ -64,12 +76,11 @@ test('logout responds to Bearer token', function (t) {
     .end(function (err, res) {
       t.error(err, 'No error');
       t.same(res.body, {}, 'Blank object, valid response');
+      t.end();
     });
 });
 
 test('logout without Authorization', function (t) {
-  t.plan(2);
-
   request(boot(helpers.validBlankOptions()))
     .post('/auth/logout')
     .expect('Content-Type', /json/)
@@ -77,12 +88,11 @@ test('logout without Authorization', function (t) {
     .end(function (err, res) {
       t.error(err, 'No error');
       t.equal(res.body, 'Authorization token is missing', 'Responds with missing token error');
+      t.end();
     });
 });
 
 test('logout with incorrect Authorization', function (t) {
-  t.plan(2);
-
   request(boot(helpers.validBlankOptions()))
     .post('/auth/logout')
     .set('Authorization', 'Basic 123')
@@ -91,5 +101,6 @@ test('logout with incorrect Authorization', function (t) {
     .end(function (err, res) {
       t.error(err, 'No error');
       t.equal(res.body, 'Invalid authorization scheme, expected \'Bearer\'', 'Responds with invalid token error');
+      t.end();
     });
 });
