@@ -59,7 +59,7 @@ Result will be JSON, e.g. `{ token: '2mkql3...' }`.
 ### Methods
 
 * `getUser` - Required; Function, `function (id, callback)`, should return a user object or an error via the callback.
-* `configureToken` - Function, `function (user)`, should the data that you want in the token, defaults to `user[idField]`.
+* `configureToken` - Function, `function (user)`, should return the data that you want in the token, defaults to `user[idField]`.
 * `validatePassword` - Function, `function (password, passwordHash)` should return `true` or `false`.
   By default this is `bcrypt.compareSync`.
 
