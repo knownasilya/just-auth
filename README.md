@@ -49,8 +49,18 @@ app.listen(80);
 POST to `/auth/login` with `{ email: 'my@email', password: 'bacon' }`.
 Result will be JSON, e.g. `{ token: '2mkql3...' }`.
 
-_Note: To use the built in password utilities, you can use the following: `var pass = require('just-auth/lib/password');`.
-This has two functions, `pass.validate(pass, hash)` and `pass.hash(pass, cb)`._
+_Note: To use the built in password utilities, you can use the following:_
+
+```js
+var passUtils = require('just-auth/lib/password');
+
+var isValid = passUtils.validate(pass, hash);
+
+passUtils.hash(pass, function (err, hash) {
+  // error or hash
+});
+```
+
 
 ## Available Options
 
@@ -61,7 +71,7 @@ This has two functions, `pass.validate(pass, hash)` and `pass.hash(pass, cb)`._
   The value of this field is passed to the `getUser` function.
 * `passwordField` - String, defaults to 'password'.
 * `passwordHashField` - String, defaults to 'passwordHash'.
-* `tokenOptions` - Object, defaults to [this](https://github.com/knownasilya/just-auth/blob/master/index.js#L14). See full options 
+* `tokenOptions` - Object, defaults to [this](https://github.com/knownasilya/just-auth/blob/master/index.js#L14). See full options
   [here](https://github.com/auth0/node-jsonwebtoken#jwtsignpayload-secretorprivatekey-options).
 
 ### Methods
