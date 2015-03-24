@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 
 var loginHandler = require('./lib/login');
 var logoutHandler = require('./lib/logout');
+var middleware = require('./lib/middleware');
 
 var router = express.Router();
 var defaults = {
@@ -46,6 +47,6 @@ module.exports = function (options) {
 
   return {
     router: router,
-    middleware: authentication
+    middleware: authentication(middleware(options))
   };
 };
