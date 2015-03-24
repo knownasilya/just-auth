@@ -55,7 +55,8 @@ Result will be JSON, e.g. `{ token: '2mkql3...' }`.
   The value of this field is passed to the `getUser` function.
 * `passwordField` - String, defaults to 'password'.
 * `passwordHashField` - String, defaults to 'passwordHash'.
-* `tokenOptions` - Object, defaults to [this](https://github.com/knownasilya/just-auth/blob/master/index.js#L14).
+* `tokenOptions` - Object, defaults to [this](https://github.com/knownasilya/just-auth/blob/master/index.js#L14). See full options 
+  [here](https://github.com/auth0/node-jsonwebtoken#jwtsignpayload-secretorprivatekey-options).
 
 ### Methods
 
