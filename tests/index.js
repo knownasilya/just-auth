@@ -1,6 +1,7 @@
 'use strict';
 
 var request = require('supertest');
+var express = require('express');
 var test = require('tape');
 var boot = require('./bootstrap');
 var helpers = require('./helpers');
@@ -50,6 +51,27 @@ test('login works', function (t) {
     .end(function (err, res) {
       t.error(err, 'No error');
       t.ok(res.body.token, 'Has token');
+      t.end();
+    });
+});
+
+test('login getUser error passed on', function (t) {
+  var options = helpers.validBlankOptions({
+    email: false,
+    passwordHash: '$2a$08$3hwGAN.NKAP/6VX3NdJ3zuDmEv0qfzXnOexwEzq2gT.rUk3ohx37y'
+  });
+  var instance = lib(options);
+  var app = express();
+  app.use('/auth', instance.router);
+
+  request(app)
+    .post('/auth/login')
+    .send({ email: 'user', password: 'blah' })
+    .expect('Content-Type', /json/)
+    .expect(500)
+    .end(function (err, res) {
+      t.error(err, 'No error');
+      t.same(res.body, { err: 'fail' }, 'Response passed on');
       t.end();
     });
 });
