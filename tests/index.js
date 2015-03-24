@@ -38,6 +38,7 @@ test('exports correct object on init', function (t) {
 });
 
 test('login works', function (t) {
+  var jwt = require('jsonwebtoken');
   var options = helpers.validBlankOptions({
     email: '<id>',
     passwordHash: '$2a$08$3hwGAN.NKAP/6VX3NdJ3zuDmEv0qfzXnOexwEzq2gT.rUk3ohx37y'
@@ -51,6 +52,8 @@ test('login works', function (t) {
     .end(function (err, res) {
       t.error(err, 'No error');
       t.ok(res.body.token, 'Has token');
+      t.equal(jwt.verify(res.body.token, options.secret), 'blah@blah', 'Token valid');
+
       t.end();
     });
 });
