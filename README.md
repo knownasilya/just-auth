@@ -20,8 +20,7 @@ npm install just-auth --save
 var express = require('express');
 var justAuth = require('just-auth');
 var app = express();
-
-app.use('/auth', justAuth({
+var auth = justAuth({
   secret: 'c47sRfunny101',
 
   getUser: function (email, callback) {
@@ -33,7 +32,10 @@ app.use('/auth', justAuth({
     // user without passwordHash
     // return data you want set on the token
   }
-}));
+});
+
+app.use('/auth', auth.router);
+app.use('/api/admin', auth.middleware);
 
 app.listen(80);
 ```
