@@ -49,6 +49,9 @@ app.listen(80);
 POST to `/auth/login` with `{ email: 'my@email', password: 'bacon' }`.
 Result will be JSON, e.g. `{ token: '2mkql3...' }`.
 
+_Note: To use the built in password utilities, you can use the following: `var pass = require('just-auth/lib/password');`.
+This has two functions, `pass.validate(pass, hash)` and `pass.hash(pass, cb)`._
+
 ## Available Options
 
 * `secret` - String, **required**.
