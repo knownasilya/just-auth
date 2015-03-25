@@ -29,6 +29,7 @@
   },
   "devDependencies": {
     "istanbul": "^0.3.10",
+    "morgan": "^1.5.2",
     "supertest": "^0.15.0",
     "tap-spec": "^2.1.2",
     "tape": "^3.0.3"

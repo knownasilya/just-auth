@@ -92,3 +92,36 @@ test('invalid login body data', function (t) {
       t.end();
     });
 });
+
+test('middleware', function (t) {
+  var options = helpers.validBlankOptions({
+    email: '<id>',
+    passwordHash: hash
+  });
+  var instance = boot(options);
+  var agent = request(instance);
+  var token;
+
+  agent
+    .post('/auth/login')
+    .send({ email: 'blah@blah', password: 'bacon' })
+    .expect('Content-Type', /json/)
+    .expect(200)
+    .end(function (err, res) {
+      t.error(err, 'No error for login');
+      t.ok(res.body.token, 'Has token');
+
+      token = res.body.token;
+
+      agent
+        .get('/admin')
+        .set('Authorization', 'Bearer ' + token)
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .end(function (err, res) {
+          t.error(err, 'No error for restricted access');
+          t.equal(res.body, 'ok', 'Data accessed');
+          t.end();
+        });
+    });
+});

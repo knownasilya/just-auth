@@ -2,7 +2,7 @@
 
 var extend = require('extend');
 var express = require('express');
-var authentication = require('express-authentication');
+var authentication = require('express-authentication')();
 var bodyParser = require('body-parser');
 
 var defaults = {
@@ -45,6 +45,6 @@ module.exports = function (options) {
 
   return {
     router: router,
-    middleware: authentication(middleware(options))
+    middleware: authentication.for(middleware(options))
   };
 };
