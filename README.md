@@ -66,7 +66,6 @@ passUtils.hash(pass, function (err, hash) {
 
 * `secret` - String, **required**.
 * `loginEndpoint` - String, defaults to '/login'.
-* `logoutEndpoint` - String, defaults to '/logout'.
 * `idField` - String, defaults to 'email', the field name of the identifier for the user.
   The value of this field is passed to the `getUser` function.
 * `passwordField` - String, defaults to 'password'.
@@ -94,30 +93,28 @@ npm test
 
 > just-auth@0.0.2 test /Users/iradchenko/sandbox/just-auth
 > node tests | tap-spec
+
   secret not set
     ✓ Missing secret throws error
   invalid #getUser
     ✓ Missing function throws descriptive error
+  exports correct object on init
+    ✓ has express router
+    ✓ has express-authentication middleware object
   login works
     ✓ No error
     ✓ Has token
+    ✓ Token valid
+  login getUser error passed on
+    ✓ No error
+    ✓ Response passed on
   invalid login body data
     ✓ No error
     ✓ Responds with required arguments
-  logout responds to Bearer token
-    ✓ No error
-    ✓ Blank object, valid response
-  logout without Authorization
-    ✓ No error
-    ✓ Responds with missing token error
-  logout with incorrect Authorization
-    ✓ No error
-    ✓ Responds with invalid token error
 
 
-
-  total:     12
-  passing:   12
+  total:     11
+  passing:   11
   duration:  448ms
   All tests pass!
 ```

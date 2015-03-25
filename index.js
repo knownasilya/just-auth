@@ -7,7 +7,6 @@ var bodyParser = require('body-parser');
 
 var defaults = {
   loginEndpoint: '/login',
-  logoutEndpoint: '/logout',
   idField: 'email',
   passwordField: 'password',
   passwordHashField: 'passwordHash',
@@ -20,7 +19,6 @@ var defaults = {
 module.exports = function (options) {
   var router = express.Router();
   var loginHandler = require('./lib/login');
-  var logoutHandler = require('./lib/logout');
   var middleware = require('./lib/middleware');
 
   options = options || {};
@@ -44,10 +42,6 @@ module.exports = function (options) {
   // Login endpoints
   router.route(options.loginEndpoint)
     .post(loginHandler(options));
-
-  // Logout endpoints
-  router.route(options.logoutEndpoint)
-    .all(logoutHandler(options));
 
   return {
     router: router,
