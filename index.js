@@ -43,8 +43,11 @@ module.exports = function (options) {
   router.route(options.loginEndpoint)
     .post(loginHandler(options));
 
+  var authMiddleware = authentication.for('auth')
+    .use(middleware(options));
+  
   return {
     router: router,
-    middleware: authentication.for(middleware(options))
+    middleware: authMiddleware
   };
 };
