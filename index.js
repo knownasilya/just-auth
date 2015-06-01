@@ -47,7 +47,7 @@ module.exports = function (options) {
   router.route(options.loginEndpoint)
     .post(loginHandler(options));
 
-  var authMiddleware = authentication.for(middleware(options));
+  var authMiddleware = authentication.for('just-auth').use(middleware(options));
 
   return {
     router: router,
