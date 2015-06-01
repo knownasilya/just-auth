@@ -24,6 +24,10 @@ module.exports = function (options) {
   options = options || {};
   options = extend(true, {}, defaults, options);
 
+  if (options.tokenOptions.expiresInSeconds) {
+    delete options.tokenOptions.expiresInMinutes;
+  }
+
   if (!options.secret) {
     throw new Error('just-auth requires a `secret` to be set in the options.');
   }
@@ -43,9 +47,8 @@ module.exports = function (options) {
   router.route(options.loginEndpoint)
     .post(loginHandler(options));
 
-  var authMiddleware = authentication.for('auth')
-    .use(middleware(options));
-  
+  var authMiddleware = authentication.for(middleware(options));
+
   return {
     router: router,
     middleware: authMiddleware
