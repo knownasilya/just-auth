@@ -59,6 +59,24 @@ test('login works', function (t) {
     });
 });
 
+test('login wrong password', function (t) {
+  var jwt = require('jsonwebtoken');
+  var options = helpers.validBlankOptions({
+    email: '<id>',
+    passwordHash: hash
+  });
+
+  request(boot(options))
+    .post('/auth/login')
+    .send({ email: 'blah@blah', password: 'wrongpass' })
+    .expect('Content-Type', /json/)
+    .expect(401)
+    .end(function (err, res) {
+      t.equal(res.body, 'Unauthorized');
+      t.end();
+    });
+});
+
 test('login getUser error passed on', function (t) {
   var options = helpers.validBlankOptions({
     email: false,
