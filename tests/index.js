@@ -90,7 +90,7 @@ test('login getUser error passed on', function (t) {
     .post('/auth/login')
     .send({ email: 'user', password: 'blah' })
     .expect('Content-Type', /json/)
-    .expect(500)
+    .expect(401)
     .end(function (err, res) {
       t.error(err, 'No error');
       t.same(res.body, { err: 'fail' }, 'Response passed on');
