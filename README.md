@@ -31,9 +31,10 @@ var auth = justAuth({
     // if success: callback(undefined, { email: 'my@email', passwordHash: '%asdaq42ad..' });
   },
 
+  // Default behavior (don't specify if this suites you)
   configureToken: function (user) {
     // user without passwordHash
-    // return data you want set on the token
+    return user;
   }
 });
 
@@ -75,9 +76,9 @@ passUtils.hash(pass, function (err, hash) {
 
 ### Methods
 
-* `getUser` - Required; Function, `function (id, callback)`, should return a user object or an error via the callback.
-* `configureToken` - Function, `function (user)`, should return the data that you want in the token, defaults to `user[idField]`.
-* `validatePassword` - Function, `function (password, passwordHash)` should return `true` or `false`.
+* `getUser` - **Required**; Function, `function (id, callback)`, should return a user object or an error via the callback.
+* `configureToken` - Function, `function (user)`, should return the data that you want in the token, defaults to `user` if not specified.
+* `validatePassword` - Function, `function (password, passwordHash)` should return a promise.
   By default this is `pbkdf2Utils.verify`, see [here](https://www.npmjs.com/package/pbkdf2-utils).
 
 
