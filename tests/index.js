@@ -53,7 +53,7 @@ test('login works', function (t) {
     .end(function (err, res) {
       t.error(err, 'No error');
       t.ok(res.body.token, 'Has token');
-      t.equal(jwt.verify(res.body.token, options.secret), 'blah@blah', 'Token valid');
+      t.equal(jwt.verify(res.body.token, options.secret).email, 'blah@blah', 'Token valid');
 
       t.end();
     });
