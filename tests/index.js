@@ -212,3 +212,62 @@ test('middleware - invalid token', function (t) {
         });
     });
 });
+
+test('middleware - no token', function (t) {
+  var options = helpers.validBlankOptions({
+    email: '<id>',
+    passwordHash: hash
+  });
+  var instance = boot(options);
+  var agent = request(instance);
+  var token;
+
+  agent
+    .post('/auth/login')
+    .send({ email: 'blah@blah', password: 'bacon' })
+    .expect('Content-Type', /json/)
+    .expect(200)
+    .end(function (err, res) {
+      t.error(err, 'No error for login');
+      t.ok(res.body.token, 'Has token');
+
+      agent
+        .get('/admin')
+        .set('Authorization', 'Bearer ')
+        .expect('Content-Type', /json/)
+        .expect(400)
+        .end(function (err, res) {
+          t.same(res.body, { error: 'AUTHENTICATION_REQUIRED', status: 401, statusCode: 401 });
+          t.end();
+        });
+    });
+});
+
+test('middleware - auth missing', function (t) {
+  var options = helpers.validBlankOptions({
+    email: '<id>',
+    passwordHash: hash
+  });
+  var instance = boot(options);
+  var agent = request(instance);
+  var token;
+
+  agent
+    .post('/auth/login')
+    .send({ email: 'blah@blah', password: 'bacon' })
+    .expect('Content-Type', /json/)
+    .expect(200)
+    .end(function (err, res) {
+      t.error(err, 'No error for login');
+      t.ok(res.body.token, 'Has token');
+
+      agent
+        .get('/admin')
+        .expect('Content-Type', /json/)
+        .expect(400)
+        .end(function (err, res) {
+          t.equal(res.body, 'Authorization token is missing');
+          t.end();
+        });
+    });
+});
