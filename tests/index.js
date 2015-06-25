@@ -143,3 +143,72 @@ test('middleware', function (t) {
         });
     });
 });
+
+test('middleware - non bearer auth', function (t) {
+  var options = helpers.validBlankOptions({
+    email: '<id>',
+    passwordHash: hash
+  });
+  var instance = boot(options);
+  var agent = request(instance);
+  var token;
+
+  agent
+    .post('/auth/login')
+    .send({ email: 'blah@blah', password: 'bacon' })
+    .expect('Content-Type', /json/)
+    .expect(200)
+    .end(function (err, res) {
+      t.error(err, 'No error for login');
+      t.ok(res.body.token, 'Has token');
+
+      token = res.body.token;
+
+      agent
+        .get('/admin')
+        .set('Authorization', 'Tester ' + token)
+        .expect('Content-Type', /json/)
+        .expect(400)
+        .end(function (err, res) {
+          t.error(err, 'No error for restricted access');
+          t.equal(res.body, 'Invalid authorization scheme, expected \'Bearer\'', 'Invalid schema');
+          t.end();
+        });
+    });
+});
+
+test('middleware - invalid token', function (t) {
+  var options = helpers.validBlankOptions({
+    email: '<id>',
+    passwordHash: hash
+  });
+  var instance = boot(options);
+  var agent = request(instance);
+  var token;
+
+  agent
+    .post('/auth/login')
+    .send({ email: 'blah@blah', password: 'bacon' })
+    .expect('Content-Type', /json/)
+    .expect(200)
+    .end(function (err, res) {
+      t.error(err, 'No error for login');
+      t.ok(res.body.token, 'Has token');
+
+      token = 'invalid';
+
+      agent
+        .get('/admin')
+        .set('Authorization', 'Bearer ' + token)
+        .expect('Content-Type', /json/)
+        .expect(401)
+        .end(function (err, res) {
+          t.same(res.body, {
+            status: 401,
+            statusCode: 401,
+            error: 'AUTHENTICATION_REQUIRED'
+          });
+          t.end();
+        });
+    });
+});
