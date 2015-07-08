@@ -3,8 +3,6 @@
 [![Build Status][travis-badge]][travis-badge-url]
 [![Coverage Status][coveralls-badge]][coveralls-badge-url]
 
-**Currently in alpha, so please use and leave feedback**
-
 Simple SPA focused token based authentication for Express.js
 This library follows convention over configuration, but configuration is available :wink:.
 
