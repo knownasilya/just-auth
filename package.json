@@ -1,6 +1,6 @@
 {
   "name": "just-auth",
-  "version": "1.0.0-alpha.1",
+  "version": "1.0.0",
   "description": "Simple SPA focused token based authentication for Express.js",
   "main": "index.js",
   "scripts": {
