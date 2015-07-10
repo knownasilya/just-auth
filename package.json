@@ -25,6 +25,8 @@
     "express-authentication": "^0.3.0",
     "extend": "^2.0.0",
     "jsonwebtoken": "^5.0.0",
+    "key-del": "^1.2.2",
+    "lodash.get": "^3.7.0",
     "pbkdf2-utils": "^1.0.0"
   },
   "devDependencies": {
