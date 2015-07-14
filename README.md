@@ -90,35 +90,6 @@ passUtils.hash(pass, function (err, hash) {
 npm install
 npm test
 ```
-```
-
-> just-auth@0.0.2 test /Users/iradchenko/sandbox/just-auth
-> node tests | tap-spec
-
-  secret not set
-    ✓ Missing secret throws error
-  invalid #getUser
-    ✓ Missing function throws descriptive error
-  exports correct object on init
-    ✓ has express router
-    ✓ has express-authentication middleware object
-  login works
-    ✓ No error
-    ✓ Has token
-    ✓ Token valid
-  login getUser error passed on
-    ✓ No error
-    ✓ Response passed on
-  invalid login body data
-    ✓ No error
-    ✓ Responds with required arguments
-
-
-  total:     11
-  passing:   11
-  duration:  448ms
-  All tests pass!
-```
 
 ## Dependencies
 
