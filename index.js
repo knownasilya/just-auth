@@ -12,7 +12,7 @@ var defaults = {
   passwordHashField: 'passwordHash',
   rememberMeField: 'rememberMe',
   // 13 days, totaling 2 weeks
-  rememberMeAdditionalMinutes: 60 * 24 * 13
+  rememberMeAdditionalMinutes: 60 * 24 * 13,
   tokenOptions: {
     // A full day
     expiresInMinutes: 60 * 24
