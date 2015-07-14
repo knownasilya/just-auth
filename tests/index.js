@@ -10,7 +10,7 @@ var hash = 'IAQAAAfQKUkNkhzJPUtnQ0ZutmxXAdmsoDGGFU1xb4DZELh1Qo0PpHfiddHMOPGvceLu
 
 test('secret not set', function (t) {
   t.throws(function () {
-    boot({})
+    boot({});
   }, /just-auth requires a `secret`/, 'Missing secret throws error');
   t.end();
 });
@@ -19,7 +19,7 @@ test('invalid #getUser', function (t) {
   t.throws(function () {
     boot({
       secret: 'test'
-    })
+    });
   }, /getUser\(id, callback\)` function to be defined/, 'Missing function throws descriptive error');
   t.end();
 });
@@ -60,7 +60,6 @@ test('login works', function (t) {
 });
 
 test('login wrong password', function (t) {
-  var jwt = require('jsonwebtoken');
   var options = helpers.validBlankOptions({
     email: '<id>',
     passwordHash: hash
@@ -72,6 +71,7 @@ test('login wrong password', function (t) {
     .expect('Content-Type', /json/)
     .expect(401)
     .end(function (err, res) {
+      t.error(err);
       t.equal(res.body, 'Unauthorized');
       t.end();
     });
@@ -136,9 +136,9 @@ test('middleware', function (t) {
         .set('Authorization', 'Bearer ' + token)
         .expect('Content-Type', /json/)
         .expect(200)
-        .end(function (err, res) {
-          t.error(err, 'No error for restricted access');
-          t.equal(res.body, 'ok', 'Data accessed');
+        .end(function (error, resp) {
+          t.error(error, 'No error for restricted access');
+          t.equal(resp.body, 'ok', 'Data accessed');
           t.end();
         });
     });
@@ -169,9 +169,9 @@ test('middleware - non bearer auth', function (t) {
         .set('Authorization', 'Tester ' + token)
         .expect('Content-Type', /json/)
         .expect(400)
-        .end(function (err, res) {
-          t.error(err, 'No error for restricted access');
-          t.equal(res.body, 'Invalid authorization scheme, expected \'Bearer\'', 'Invalid schema');
+        .end(function (error, resp) {
+          t.error(error, 'No error for restricted access');
+          t.equal(resp.body, 'Invalid authorization scheme, expected \'Bearer\'', 'Invalid schema');
           t.end();
         });
     });
@@ -202,8 +202,9 @@ test('middleware - invalid token', function (t) {
         .set('Authorization', 'Bearer ' + token)
         .expect('Content-Type', /json/)
         .expect(401)
-        .end(function (err, res) {
-          t.same(res.body, {
+        .end(function (error, resp) {
+          t.error(error);
+          t.same(resp.body, {
             status: 401,
             statusCode: 401,
             error: 'AUTHENTICATION_REQUIRED'
@@ -220,7 +221,6 @@ test('middleware - no token', function (t) {
   });
   var instance = boot(options);
   var agent = request(instance);
-  var token;
 
   agent
     .post('/auth/login')
@@ -236,8 +236,9 @@ test('middleware - no token', function (t) {
         .set('Authorization', 'Bearer ')
         .expect('Content-Type', /json/)
         .expect(400)
-        .end(function (err, res) {
-          t.same(res.body, { error: 'AUTHENTICATION_REQUIRED', status: 401, statusCode: 401 });
+        .end(function (error, resp) {
+          t.error(error);
+          t.same(resp.body, { error: 'AUTHENTICATION_REQUIRED', status: 401, statusCode: 401 });
           t.end();
         });
     });
@@ -250,7 +251,6 @@ test('middleware - auth missing', function (t) {
   });
   var instance = boot(options);
   var agent = request(instance);
-  var token;
 
   agent
     .post('/auth/login')
@@ -265,8 +265,9 @@ test('middleware - auth missing', function (t) {
         .get('/admin')
         .expect('Content-Type', /json/)
         .expect(400)
-        .end(function (err, res) {
-          t.equal(res.body, 'Authorization token is missing');
+        .end(function (error, resp) {
+          t.error(error);
+          t.equal(resp.body, 'Authorization token is missing');
           t.end();
         });
     });
