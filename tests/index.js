@@ -53,7 +53,34 @@ test('login works', function (t) {
     .end(function (err, res) {
       t.error(err, 'No error');
       t.ok(res.body.token, 'Has token');
-      t.equal(jwt.verify(res.body.token, options.secret).email, 'blah@blah', 'Token valid');
+
+      var decoded = jwt.verify(res.body.token, options.secret);
+      t.equal(decoded.email, 'blah@blah', 'Token valid');
+
+      t.end();
+    });
+});
+
+test('login works - rememberMe', function (t) {
+  var jwt = require('jsonwebtoken');
+  var options = helpers.validBlankOptions({
+    email: '<id>',
+    passwordHash: hash,
+    rememberMe: true
+  });
+
+  request(boot(options))
+    .post('/auth/login')
+    .send({ email: 'blah@blah', password: 'bacon' })
+    .expect('Content-Type', /json/)
+    .expect(200)
+    .end(function (err, res) {
+      t.error(err, 'No error');
+      t.ok(res.body.token, 'Has token');
+
+      var decoded = jwt.verify(res.body.token, options.secret);
+      t.equal(decoded.email, 'blah@blah', 'Token valid');
+      t.ok(decoded.rememberMe, 'Remember Me is set');
 
       t.end();
     });
@@ -235,7 +262,7 @@ test('middleware - no token', function (t) {
         .get('/admin')
         .set('Authorization', 'Bearer ')
         .expect('Content-Type', /json/)
-        .expect(400)
+        .expect(401)
         .end(function (error, resp) {
           t.error(error);
           t.same(resp.body, { error: 'AUTHENTICATION_REQUIRED', status: 401, statusCode: 401 });
@@ -264,10 +291,10 @@ test('middleware - auth missing', function (t) {
       agent
         .get('/admin')
         .expect('Content-Type', /json/)
-        .expect(400)
+        .expect(401)
         .end(function (error, resp) {
           t.error(error);
-          t.equal(resp.body, 'Authorization token is missing');
+          t.same(resp.body, { error: 'AUTHENTICATION_REQUIRED', status: 401, statusCode: 401 });
           t.end();
         });
     });
