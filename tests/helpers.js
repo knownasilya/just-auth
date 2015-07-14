@@ -13,8 +13,7 @@ exports.validBlankOptions = function (user) {
       process.nextTick(function () {
         if (!user.email) {
           callback({err: 'fail' });
-        }
-        else {
+        } else {
           callback(undefined, user);
         }
       });

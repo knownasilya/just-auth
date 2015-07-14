@@ -65,13 +65,16 @@ test('login works - rememberMe', function (t) {
   var jwt = require('jsonwebtoken');
   var options = helpers.validBlankOptions({
     email: '<id>',
-    passwordHash: hash,
-    rememberMe: true
+    passwordHash: hash
   });
 
   request(boot(options))
     .post('/auth/login')
-    .send({ email: 'blah@blah', password: 'bacon' })
+    .send({
+      email: 'blah@blah',
+      password: 'bacon',
+      rememberMe: true
+    })
     .expect('Content-Type', /json/)
     .expect(200)
     .end(function (err, res) {
@@ -79,8 +82,11 @@ test('login works - rememberMe', function (t) {
       t.ok(res.body.token, 'Has token');
 
       var decoded = jwt.verify(res.body.token, options.secret);
+      var timestamp = Math.floor(Date.now() / 1000);
+      var expectedExpiration = timestamp + (60 * 60 * 24 * 14);
+
       t.equal(decoded.email, 'blah@blah', 'Token valid');
-      t.ok(decoded.rememberMe, 'Remember Me is set');
+      t.equal(decoded.exp, expectedExpiration, 'Expiration is correct');
 
       t.end();
     });
