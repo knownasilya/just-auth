@@ -54,6 +54,10 @@ module.exports = function (options) {
 
   return {
     router: router,
-    middleware: authMiddleware
+    middleware: authMiddleware,
+    createToken: function createToken(data, remember) {
+      var createToken = require('./lib/create-token');
+      return createToken(data, remember, options);
+    }
   };
 };
