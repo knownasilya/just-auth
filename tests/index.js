@@ -51,6 +51,7 @@ test('login works', function (t) {
     .expect('Content-Type', /json/)
     .expect(200)
     .end(function (err, res) {
+      console.log(res);
       t.error(err, 'No error');
       t.ok(res.body.token, 'Has token');
 

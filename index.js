@@ -15,21 +15,17 @@ var defaults = {
   rememberMeAdditionalMinutes: 60 * 24 * 13,
   tokenOptions: {
     // A full day
-    expiresInMinutes: 60 * 24
+    expiresIn: 60 * 60 * 24
   }
 };
 
 module.exports = function (options) {
-  var router = express.Router();
+  var router = new express.Router();
   var loginHandler = require('./lib/login');
   var middleware = require('./lib/middleware');
 
   options = options || {};
   options = extend(true, {}, defaults, options);
-
-  if (options.tokenOptions.expiresInSeconds) {
-    delete options.tokenOptions.expiresInMinutes;
-  }
 
   if (!options.secret) {
     throw new Error('just-auth requires a `secret` to be set in the options.');
@@ -55,7 +51,7 @@ module.exports = function (options) {
   return {
     router: router,
     middleware: authMiddleware,
-    createToken: function createToken(data, remember) {
+    createToken: function createTokenExternal(data, remember) {
       var createToken = require('./lib/create-token');
       return createToken(data, remember, options);
     }

@@ -72,8 +72,8 @@ passUtils.hash(pass, function (err, hash) {
 * `passwordHashField` - String, defaults to 'passwordHash'.
 * `rememberMeField` - String, defaults to 'rememberMe'.
 * `rememberMeAdditionalMinutes` - Number, defaults to 13 days in minutes.
-* `tokenOptions` - Object, defaults to [this](https://github.com/knownasilya/just-auth/blob/master/index.js#L14). See full options
-  [here](https://github.com/auth0/node-jsonwebtoken#jwtsignpayload-secretorprivatekey-options).
+* `tokenOptions` - Object, defaults to [this](https://github.com/knownasilya/just-auth/blob/master/index.js#L16). See full options
+  [here](https://github.com/auth0/node-jsonwebtoken/tree/v7.0.0#jwtsignpayload-secretorprivatekey-options-callback).
 
 ### Methods
 
@@ -81,7 +81,6 @@ passUtils.hash(pass, function (err, hash) {
 * `configureToken` - Function, `function (user)`, should return the data that you want in the token, defaults to `user` if not specified.
 * `validatePassword` - Function, `function (password, passwordHash)` should return a promise.
   By default this is `pbkdf2Utils.verify`, see [here](https://www.npmjs.com/package/pbkdf2-utils).
-
 
 
 
