@@ -344,3 +344,14 @@ test('middleware - auth missing', function (t) {
         });
     });
 });
+
+test('password hash util', function (t) {
+  var passwordUtil = require('../lib/password');
+
+  passwordUtil.hash('abc', function (err, passHash) {
+    t.error(err, 'No error');
+    t.equal(typeof passHash, 'string', 'Hash is a string');
+    t.ok(passwordUtil.validate('abc', passHash), 'Matches the password');
+    t.end();
+  });
+});
