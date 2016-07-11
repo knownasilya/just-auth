@@ -265,6 +265,27 @@ test('middleware - invalid token', function (t) {
     });
 });
 
+test('middleware - malformed token', function (t) {
+  var options = helpers.validBlankOptions({
+    email: '<id>',
+    passwordHash: hash
+  });
+  var instance = boot(options);
+  var agent = request(instance);
+  var token = 'invalid';
+
+  agent
+    .get('/admin')
+    .set('Authorization', token)
+    .expect('Content-Type', /json/)
+    .expect(400)
+    .end(function (error, resp) {
+      t.error(error);
+      t.same(resp.body, 'Invalid authorization supplied');
+      t.end();
+    });
+});
+
 test('middleware - no token', function (t) {
   var options = helpers.validBlankOptions({
     email: '<id>',
