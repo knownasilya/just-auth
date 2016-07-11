@@ -19,7 +19,7 @@
     "middleware"
   ],
   "dependencies": {
-    "auth-header": "^0.3.1",
+    "auth-header": "^0.2.2",
     "body-parser": "^1.10.1",
     "express": "^4.10.7",
     "express-authentication": "^0.3.0",
