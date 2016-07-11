@@ -112,20 +112,20 @@ test('login wrong password', function (t) {
     });
 });
 
-test('login no password', function (t) {
+test('login invalid hash', function (t) {
   var options = helpers.validBlankOptions({
     email: '<id>',
-    passwordHash: hash
+    passwordHash: 'sdasd'
   });
 
   request(boot(options))
     .post('/auth/login')
-    .send({ email: 'blah@blah' })
+    .send({ email: 'blah@blah', password: 'bacon' })
     .expect('Content-Type', /json/)
     .expect(400)
     .end(function (err, res) {
       t.error(err);
-      t.equal(res.body, 'Invalid arguments, expected `email` and `password` to be present.');
+      t.equal(res.body, 'invalid hash length');
       t.end();
     });
 });
