@@ -34,6 +34,7 @@ test('exports correct object on init', function (t) {
 
   t.ok(instance.router && instance.router.length === 3, 'has express router');
   t.ok(instance.middleware && instance.middleware.required, 'has express-authentication middleware object');
+  t.equal(typeof instance.createToken, 'function', 'has createToken exported');
 
   t.end();
 });
@@ -107,6 +108,24 @@ test('login wrong password', function (t) {
     .end(function (err, res) {
       t.error(err);
       t.equal(res.body, 'Unauthorized');
+      t.end();
+    });
+});
+
+test('login no password', function (t) {
+  var options = helpers.validBlankOptions({
+    email: '<id>',
+    passwordHash: hash
+  });
+
+  request(boot(options))
+    .post('/auth/login')
+    .send({ email: 'blah@blah' })
+    .expect('Content-Type', /json/)
+    .expect(400)
+    .end(function (err, res) {
+      t.error(err);
+      t.equal(res.body, 'Invalid arguments, expected `email` and `password` to be present.');
       t.end();
     });
 });
@@ -354,4 +373,17 @@ test('password hash util', function (t) {
     t.ok(passwordUtil.validate('abc', passHash), 'Matches the password');
     t.end();
   });
+});
+
+test('createToken', function (t) {
+  var instance = lib({
+    secret: 'blah',
+    getUser: function (cb) {
+      cb();
+    }
+  });
+  var token = instance.createToken({ blah: true }, false);
+
+  t.ok(token, 'Token exists');
+  t.end();
 });
