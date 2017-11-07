@@ -25,13 +25,13 @@ var app = express();
 var auth = justAuth({
   secret: 'c47sRfunny101',
 
-  getUser: function (email, callback) {
+  getUser(email, callback) {
     // if error: callback({ myerror: 'failure' });
     // if success: callback(undefined, { email: 'my@email', passwordHash: '%asdaq42ad..' });
   },
 
   // Default behavior (don't specify if this suites you)
-  configureToken: function (user) {
+  configureToken(user) {
     // user without passwordHash
     return user;
   }
