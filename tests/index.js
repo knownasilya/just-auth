@@ -52,7 +52,7 @@ test('login works', function (t) {
     .expect('Content-Type', /json/)
     .expect(200)
     .end(function (err, res) {
-      console.log(res);
+      //console.log(res);
       t.error(err, 'No error');
       t.ok(res.body.token, 'Has token');
 
@@ -355,10 +355,10 @@ test('middleware - auth missing', function (t) {
       agent
         .get('/admin')
         .expect('Content-Type', /json/)
-        .expect(401)
+        .expect(400)
         .end(function (error, resp) {
           t.error(error);
-          t.same(resp.body, { error: 'AUTHENTICATION_REQUIRED', status: 401, statusCode: 401 });
+          t.same(resp.body, 'Invalid authorization supplied');
           t.end();
         });
     });

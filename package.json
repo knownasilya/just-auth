@@ -19,12 +19,12 @@
     "middleware"
   ],
   "dependencies": {
-    "auth-header": "^0.2.2",
+    "auth-header": "^0.3.1",
     "body-parser": "^1.10.1",
     "express": "^4.10.7",
     "express-authentication": "^0.3.0",
     "extend": "^3.0.0",
-    "jsonwebtoken": "^7.0.0",
+    "jsonwebtoken": "^8.2.1",
     "key-del": "^1.2.2",
     "lodash.get": "^4.3.0",
     "pbkdf2-utils": "^1.0.0"
@@ -32,7 +32,7 @@
   "devDependencies": {
     "istanbul": "^0.4.4",
     "morgan": "^1.5.2",
-    "supertest": "^1.0.1",
+    "supertest": "^3.0.0",
     "tap-spec": "^4.0.2",
     "tape": "^4.0.1"
   },
