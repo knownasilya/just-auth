@@ -6,7 +6,6 @@
   "scripts": {
     "test": "node tests | tap-spec",
     "test-coverage": "istanbul cover tests/index.js --report lcovonly | tap-spec",
-    "readme": "readme package.json --tests --travis > README.md",
     "release": "standard-version"
   },
   "author": "Ilya Radchenko <ilya@burstcreations.com>",
