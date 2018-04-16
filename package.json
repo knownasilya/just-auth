@@ -6,7 +6,8 @@
   "scripts": {
     "test": "node tests | tap-spec",
     "test-coverage": "istanbul cover tests/index.js --report lcovonly | tap-spec",
-    "readme": "readme package.json --tests --travis > README.md"
+    "readme": "readme package.json --tests --travis > README.md",
+    "release": "standard-version"
   },
   "author": "Ilya Radchenko <ilya@burstcreations.com>",
   "license": "ISC",
@@ -32,6 +33,7 @@
   "devDependencies": {
     "istanbul": "^0.4.4",
     "morgan": "^1.5.2",
+    "standard-version": "^4.3.0",
     "supertest": "^3.0.0",
     "tap-spec": "^4.0.2",
     "tape": "^4.0.1"
