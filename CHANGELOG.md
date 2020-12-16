@@ -1,6 +1,18 @@
-# Change Log
+# Changelog
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+## [4.0.0](https://github.com/knownasilya/just-auth/compare/v3.0.0...v4.0.0) (2020-12-16)
+
+
+### ⚠ BREAKING CHANGES
+
+* Drop Node.js < 10
+* when supplying `Bearer` (no token) you now get a 400 instead of a 401. See middleware - no token test.
+
+### Bug Fixes
+
+* update deps and fix tests ([242a7c5](https://github.com/knownasilya/just-auth/commit/242a7c5cb22a50a81aaeb3e2457c4d749ee22320))
 
 <a name="3.0.0"></a>
 # [3.0.0](https://github.com/knownasilya/just-auth/compare/v2.0.1...v3.0.0) (2018-04-16)
