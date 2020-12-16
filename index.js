@@ -1,11 +1,11 @@
 'use strict';
 
-var extend = require('extend');
-var express = require('express');
-var authentication = require('express-authentication')();
-var bodyParser = require('body-parser');
+const extend = require('extend');
+const express = require('express');
+const authentication = require('express-authentication')();
+const bodyParser = require('body-parser');
 
-var defaults = {
+let defaults = {
   loginEndpoint: '/login',
   idField: 'email',
   passwordField: 'password',
@@ -15,14 +15,14 @@ var defaults = {
   rememberMeAdditionalMinutes: 60 * 24 * 13,
   tokenOptions: {
     // A full day
-    expiresIn: 60 * 60 * 24
-  }
+    expiresIn: 60 * 60 * 24,
+  },
 };
 
 module.exports = function (options) {
-  var router = new express.Router();
-  var loginHandler = require('./lib/login');
-  var middleware = require('./lib/middleware');
+  const router = new express.Router();
+  const loginHandler = require('./lib/login');
+  const middleware = require('./lib/middleware');
 
   options = options || {};
   options = extend(true, {}, defaults, options);
@@ -32,28 +32,33 @@ module.exports = function (options) {
   }
 
   if (!options.getUser || typeof options.getUser !== 'function') {
-    throw new Error('just-auth requires a `getUser(id, callback)` function to be defined. ' +
-      'See https://github.com/knownasilya/just-auth#getuser for details.');
+    throw new Error(
+      'just-auth requires a `getUser(id, callback)` function to be defined. ' +
+        'See https://github.com/knownasilya/just-auth#getuser for details.'
+    );
   }
 
   // Setup router specific middleware
   router.use(bodyParser.json());
-  router.use(bodyParser.urlencoded({
-    extended: false
-  }));
+  router.use(
+    bodyParser.urlencoded({
+      extended: false,
+    })
+  );
 
   // Login endpoints
-  router.route(options.loginEndpoint)
-    .post(loginHandler(options));
+  router.route(options.loginEndpoint).post(loginHandler(options));
 
-  var authMiddleware = authentication.for('just-auth').use(middleware(options));
+  const authMiddleware = authentication
+    .for('just-auth')
+    .use(middleware(options));
 
   return {
     router: router,
     middleware: authMiddleware,
     createToken: function createTokenExternal(data, remember) {
-      var createToken = require('./lib/create-token');
+      const createToken = require('./lib/create-token');
       return createToken(data, remember, options);
-    }
+    },
   };
 };

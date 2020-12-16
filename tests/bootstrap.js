@@ -1,13 +1,12 @@
 'use strict';
 
-var express = require('express');
-var morgan = require('morgan');
-var lib = require('../');
-
+const express = require('express');
+const morgan = require('morgan');
+const lib = require('../');
 
 module.exports = function (options) {
-  var app = express();
-  var instance = lib(options);
+  const app = express();
+  const instance = lib(options);
 
   app.use(morgan('dev'));
   app.use('/auth', instance.router);

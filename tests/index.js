@@ -1,49 +1,61 @@
 'use strict';
 
-var request = require('supertest');
-var express = require('express');
-var test = require('tape');
-var boot = require('./bootstrap');
-var helpers = require('./helpers');
-var lib = require('../');
-var hash = 'IAQAAAfQKUkNkhzJPUtnQ0ZutmxXAdmsoDGGFU1xb4DZELh1Qo0PpHfiddHMOPGvceLuaKuH';
+const request = require('supertest');
+const express = require('express');
+const test = require('tape');
+const boot = require('./bootstrap');
+const helpers = require('./helpers');
+const lib = require('../');
+const hash =
+  'IAQAAAfQKUkNkhzJPUtnQ0ZutmxXAdmsoDGGFU1xb4DZELh1Qo0PpHfiddHMOPGvceLuaKuH';
 
 test('secret not set', function (t) {
-  t.throws(function () {
-    boot({});
-  }, /just-auth requires a `secret`/, 'Missing secret throws error');
+  t.throws(
+    function () {
+      boot({});
+    },
+    /just-auth requires a `secret`/,
+    'Missing secret throws error'
+  );
   t.end();
 });
 
 test('invalid #getUser', function (t) {
-  t.throws(function () {
-    boot({
-      secret: 'test'
-    });
-  }, /getUser\(id, callback\)` function to be defined/, 'Missing function throws descriptive error');
+  t.throws(
+    function () {
+      boot({
+        secret: 'test',
+      });
+    },
+    /getUser\(id, callback\)` function to be defined/,
+    'Missing function throws descriptive error'
+  );
   t.end();
 });
 
 test('exports correct object on init', function (t) {
-  var instance = lib({
+  const instance = lib({
     secret: 'blah',
     getUser: function (cb) {
       cb();
-    }
+    },
   });
 
   t.ok(instance.router && instance.router.length === 3, 'has express router');
-  t.ok(instance.middleware && instance.middleware.required, 'has express-authentication middleware object');
+  t.ok(
+    instance.middleware && instance.middleware.required,
+    'has express-authentication middleware object'
+  );
   t.equal(typeof instance.createToken, 'function', 'has createToken exported');
 
   t.end();
 });
 
 test('login works', function (t) {
-  var jwt = require('jsonwebtoken');
-  var options = helpers.validBlankOptions({
+  const jwt = require('jsonwebtoken');
+  const options = helpers.validBlankOptions({
     email: '<id>',
-    passwordHash: hash
+    passwordHash: hash,
   });
 
   request(boot(options))
@@ -56,7 +68,7 @@ test('login works', function (t) {
       t.error(err, 'No error');
       t.ok(res.body.token, 'Has token');
 
-      var decoded = jwt.verify(res.body.token, options.secret);
+      const decoded = jwt.verify(res.body.token, options.secret);
       t.equal(decoded.email, 'blah@blah', 'Token valid');
 
       t.end();
@@ -64,10 +76,10 @@ test('login works', function (t) {
 });
 
 test('login works - rememberMe', function (t) {
-  var jwt = require('jsonwebtoken');
-  var options = helpers.validBlankOptions({
+  const jwt = require('jsonwebtoken');
+  const options = helpers.validBlankOptions({
     email: '<id>',
-    passwordHash: hash
+    passwordHash: hash,
   });
 
   request(boot(options))
@@ -75,7 +87,7 @@ test('login works - rememberMe', function (t) {
     .send({
       email: 'blah@blah',
       password: 'bacon',
-      rememberMe: true
+      rememberMe: true,
     })
     .expect('Content-Type', /json/)
     .expect(200)
@@ -83,9 +95,9 @@ test('login works - rememberMe', function (t) {
       t.error(err, 'No error');
       t.ok(res.body.token, 'Has token');
 
-      var decoded = jwt.verify(res.body.token, options.secret);
-      var timestamp = Math.floor(Date.now() / 1000);
-      var expectedExpiration = timestamp + (60 * 60 * 24 * 14);
+      const decoded = jwt.verify(res.body.token, options.secret);
+      const timestamp = Math.floor(Date.now() / 1000);
+      const expectedExpiration = timestamp + 60 * 60 * 24 * 14;
 
       t.equal(decoded.email, 'blah@blah', 'Token valid');
       t.equal(decoded.exp, expectedExpiration, 'Expiration is correct');
@@ -95,9 +107,9 @@ test('login works - rememberMe', function (t) {
 });
 
 test('login wrong password', function (t) {
-  var options = helpers.validBlankOptions({
+  const options = helpers.validBlankOptions({
     email: '<id>',
-    passwordHash: hash
+    passwordHash: hash,
   });
 
   request(boot(options))
@@ -113,9 +125,9 @@ test('login wrong password', function (t) {
 });
 
 test('login invalid hash', function (t) {
-  var options = helpers.validBlankOptions({
+  const options = helpers.validBlankOptions({
     email: '<id>',
-    passwordHash: 'sdasd'
+    passwordHash: 'sdasd',
   });
 
   request(boot(options))
@@ -131,8 +143,8 @@ test('login invalid hash', function (t) {
 });
 
 test('login no hash', function (t) {
-  var options = helpers.validBlankOptions({
-    email: '<id>'
+  const options = helpers.validBlankOptions({
+    email: '<id>',
   });
 
   request(boot(options))
@@ -148,12 +160,13 @@ test('login no hash', function (t) {
 });
 
 test('login getUser error passed on', function (t) {
-  var options = helpers.validBlankOptions({
+  const options = helpers.validBlankOptions({
     email: false,
-    passwordHash: '$2a$08$3hwGAN.NKAP/6VX3NdJ3zuDmEv0qfzXnOexwEzq2gT.rUk3ohx37y'
+    passwordHash:
+      '$2a$08$3hwGAN.NKAP/6VX3NdJ3zuDmEv0qfzXnOexwEzq2gT.rUk3ohx37y',
   });
-  var instance = lib(options);
-  var app = express();
+  const instance = lib(options);
+  const app = express();
   app.use('/auth', instance.router);
 
   request(app)
@@ -176,19 +189,23 @@ test('invalid login body data', function (t) {
     .expect(400)
     .end(function (err, res) {
       t.error(err, 'No error');
-      t.equal(res.body, 'Invalid arguments, expected `email` and `password` to be present.', 'Responds with required arguments');
+      t.equal(
+        res.body,
+        'Invalid arguments, expected `email` and `password` to be present.',
+        'Responds with required arguments'
+      );
       t.end();
     });
 });
 
 test('middleware', function (t) {
-  var options = helpers.validBlankOptions({
+  const options = helpers.validBlankOptions({
     email: '<id>',
-    passwordHash: hash
+    passwordHash: hash,
   });
-  var instance = boot(options);
-  var agent = request(instance);
-  var token;
+  const instance = boot(options);
+  const agent = request(instance);
+  let token;
 
   agent
     .post('/auth/login')
@@ -215,13 +232,13 @@ test('middleware', function (t) {
 });
 
 test('middleware - non bearer auth', function (t) {
-  var options = helpers.validBlankOptions({
+  const options = helpers.validBlankOptions({
     email: '<id>',
-    passwordHash: hash
+    passwordHash: hash,
   });
-  var instance = boot(options);
-  var agent = request(instance);
-  var token;
+  const instance = boot(options);
+  const agent = request(instance);
+  let token;
 
   agent
     .post('/auth/login')
@@ -241,20 +258,24 @@ test('middleware - non bearer auth', function (t) {
         .expect(400)
         .end(function (error, resp) {
           t.error(error, 'No error for restricted access');
-          t.equal(resp.body, 'Invalid authorization scheme, expected \'Bearer\'', 'Invalid schema');
+          t.equal(
+            resp.body,
+            "Invalid authorization scheme, expected 'Bearer'",
+            'Invalid schema'
+          );
           t.end();
         });
     });
 });
 
 test('middleware - invalid token', function (t) {
-  var options = helpers.validBlankOptions({
+  const options = helpers.validBlankOptions({
     email: '<id>',
-    passwordHash: hash
+    passwordHash: hash,
   });
-  var instance = boot(options);
-  var agent = request(instance);
-  var token;
+  const instance = boot(options);
+  const agent = request(instance);
+  let token;
 
   agent
     .post('/auth/login')
@@ -277,7 +298,7 @@ test('middleware - invalid token', function (t) {
           t.same(resp.body, {
             status: 401,
             statusCode: 401,
-            error: 'AUTHENTICATION_REQUIRED'
+            error: 'AUTHENTICATION_REQUIRED',
           });
           t.end();
         });
@@ -285,17 +306,16 @@ test('middleware - invalid token', function (t) {
 });
 
 test('middleware - malformed token', function (t) {
-  var options = helpers.validBlankOptions({
+  const options = helpers.validBlankOptions({
     email: '<id>',
-    passwordHash: hash
+    passwordHash: hash,
   });
-  var instance = boot(options);
-  var agent = request(instance);
-  var token = 'invalid';
+  const instance = boot(options);
+  const agent = request(instance);
 
   agent
     .get('/admin')
-    .set('Authorization', token)
+    .set('Authorization', 'invalid')
     .expect('Content-Type', /json/)
     .expect(400)
     .end(function (error, resp) {
@@ -306,12 +326,12 @@ test('middleware - malformed token', function (t) {
 });
 
 test('middleware - no token', function (t) {
-  var options = helpers.validBlankOptions({
+  const options = helpers.validBlankOptions({
     email: '<id>',
-    passwordHash: hash
+    passwordHash: hash,
   });
-  var instance = boot(options);
-  var agent = request(instance);
+  const instance = boot(options);
+  const agent = request(instance);
 
   agent
     .post('/auth/login')
@@ -326,22 +346,22 @@ test('middleware - no token', function (t) {
         .get('/admin')
         .set('Authorization', 'Bearer ')
         .expect('Content-Type', /json/)
-        .expect(401)
+        .expect(400)
         .end(function (error, resp) {
           t.error(error);
-          t.same(resp.body, { error: 'AUTHENTICATION_REQUIRED', status: 401, statusCode: 401 });
+          t.same(resp.body, 'Invalid authorization supplied');
           t.end();
         });
     });
 });
 
 test('middleware - auth missing', function (t) {
-  var options = helpers.validBlankOptions({
+  const options = helpers.validBlankOptions({
     email: '<id>',
-    passwordHash: hash
+    passwordHash: hash,
   });
-  var instance = boot(options);
-  var agent = request(instance);
+  const instance = boot(options);
+  const agent = request(instance);
 
   agent
     .post('/auth/login')
@@ -365,7 +385,7 @@ test('middleware - auth missing', function (t) {
 });
 
 test('password hash util', function (t) {
-  var passwordUtil = require('../lib/password');
+  const passwordUtil = require('../lib/password');
 
   passwordUtil.hash('abc', function (err, passHash) {
     t.error(err, 'No error');
@@ -376,13 +396,13 @@ test('password hash util', function (t) {
 });
 
 test('createToken', function (t) {
-  var instance = lib({
+  const instance = lib({
     secret: 'blah',
     getUser: function (cb) {
       cb();
-    }
+    },
   });
-  var token = instance.createToken({ blah: true }, false);
+  const token = instance.createToken({ blah: true }, false);
 
   t.ok(token, 'Token exists');
   t.end();
